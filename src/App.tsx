@@ -1,49 +1,48 @@
-import { Redirect, Route } from 'react-router-dom';
-import { IonApp, IonRouterOutlet, setupIonicReact } from '@ionic/react';
+import React from 'react';
 import { IonReactRouter } from '@ionic/react-router';
+import { IonSplitPane, IonMenu, IonHeader, IonToolbar, IonTitle, IonContent, IonList, IonItem, IonPage, IonRouterOutlet } from '@ionic/react';
+import { Route, Redirect } from 'react-router-dom';
 import Home from './pages/Home';
 import Scanner from './pages/Scanner';
 import ConsentPage from './pages/ConsentPage';
 import DataCollectionPage from './pages/DataCollectionPage';
 import CapturedDataPage from './pages/CapturedDataPage';
 
-
-/* Core CSS required for Ionic components to work properly */
-import '@ionic/react/css/core.css';
-
-/* Basic CSS for apps built with Ionic */
-import '@ionic/react/css/normalize.css';
-import '@ionic/react/css/structure.css';
-import '@ionic/react/css/typography.css';
-
-/* Optional CSS utils that can be commented out */
-import '@ionic/react/css/padding.css';
-import '@ionic/react/css/float-elements.css';
-import '@ionic/react/css/text-alignment.css';
-import '@ionic/react/css/text-transformation.css';
-import '@ionic/react/css/flex-utils.css';
-import '@ionic/react/css/display.css';
-
-/* Theme variables */
-import './theme/variables.css';
-
-setupIonicReact();
-
 const App: React.FC = () => (
-  <IonApp>
-    <IonReactRouter>
-    <IonRouterOutlet placeholder={() => <div />}>
-        <Route exact path="/home">
-          <Home />
-       </Route>
-      
-     
-        <Route exact path="/">
-          <Redirect to="/home" />
-        </Route>
+  <IonReactRouter>
+    <IonSplitPane contentId="main">
+      <IonMenu contentId="main">
+        <IonHeader>
+          <IonToolbar>
+            <IonTitle>Menu</IonTitle>
+          </IonToolbar>
+        </IonHeader>
+        <IonContent>
+          <IonList>
+            <IonItem routerLink="/home">Home</IonItem>
+            <IonItem routerLink="/scanner">Scanner</IonItem>
+            <IonItem routerLink="/consent">Consent</IonItem>
+            <IonItem routerLink="/data-collection">Data Collection</IonItem>
+            <IonItem routerLink="/captured-data">Captured Data</IonItem>
+          </IonList>
+        </IonContent>
+      </IonMenu>
+      <IonRouterOutlet id="main" placeholder={undefined}>
+        {/* Provide a placeholder property */}
+        <div id="main" style={{ display: 'contents' }}>
+          <IonPage>
+            <div>Placeholder content</div>
+          </IonPage>
+        </div>
+        <Route path="/home" component={Home} />
+        <Route path="/scanner" component={Scanner} />
+        <Route path="/consent" component={ConsentPage} />
+        <Route path="/data-collection" component={DataCollectionPage} />
+        <Route path="/captured-data" component={CapturedDataPage} />
+        <Redirect from="/" to="/home" exact />
       </IonRouterOutlet>
-    </IonReactRouter>
-  </IonApp>
+    </IonSplitPane>
+  </IonReactRouter>
 );
 
 export default App;
